@@ -1,77 +1,42 @@
-# Kun Vibe Coding AI-SDD Skill V0.4
+# Kun Coding Router V0.5：项目流程路由器
 
-这是一个“路由器式” Vibe Coding Skill。
+这是昆昆子的个人 Vibe Coding 总入口 Skill。
 
-当前版本已将“复盘沉淀”移出主流程；复盘适合作为单独 Skill，在项目完成后另行调用。
+它的核心不是“写一个更大的万能 Skill”，而是做一个**路由器**：根据当前问题判断项目阶段，自动选择最合适的子流程，避免新手每次忘记该用哪个 Skill。
 
-V0.4 新增 `Computer-Use E2E Gate`：在复杂交互、多页面流程、桌面应用、数据持久化和部署访问等场景中，按需使用真实鼠标键盘/浏览器/桌面操作链路验证。
+## V0.5 关键变化
 
-它不是每次都跑完整流程，而是根据当前项目阶段，只加载必要流程。
+相比 V0.4，本版本新增：
 
-## 核心变化
+1. 正式改名为 **Kun Coding Router：项目流程路由器**。
+2. 新增 `references/00-skill-index.md`，作为技能索引和触发表。
+3. 新增 `references/02-spec-start-qiaomu-inspired.md`，吸收 qiaomu-ai-prd 的规格生成方法。
+4. AI-SDD 模板加入：AI 速读卡、硬约束/推荐默认/发挥空间、ASCII 页面布局、模块状态、数字化性能指标、验收剧本、开发者交接说明。
+5. 增加中文短别名：开工规格、执行规格、单次任务、测试门、真实用户验收等，降低记忆成本。
+6. 保持 V0.4 的 Computer-Use E2E Gate。
+7. 继续排除“复盘沉淀”，复盘应作为单独 Skill。
 
-旧流程：
+## 设计目标
 
-> 想法验证 → PRD → 需求对齐 → 设计 → 开发
+用户不需要记住：
 
-新流程：
+- qiaomu-ai-prd
+- AI-SDD
+- Architecture Gate
+- Test First Gate
+- Computer-Use E2E Gate
 
-> 想法验证 → Product Brief → AI-SDD → Task Spec → Codex 安全施工 → Computer-Use E2E Gate（按需）→ 验收 Git
+用户只要说：
 
-## 三层文档 + 一个验证门
+- “帮我开工这个新项目”
+- “继续开发当前项目”
+- “修这个 bug”
+- “帮我跑通验收”
+- “保存一下并提交 Git”
 
-### 1. Product Brief
+Router 会自动判断当前应该走哪条流程。
 
-轻量产品说明，替代传统冗长 PRD。
-
-用于回答：
-
-- 为什么做
-- 给谁用
-- 第一版解决什么问题
-- MVP 做什么
-- 第一版不做什么
-
-### 2. AI-SDD
-
-AI 可执行项目规格书。
-
-用于回答：
-
-- 页面有哪些
-- 模块怎么分
-- 数据怎么流动
-- 数据字段是什么
-- API 或模块边界是什么
-- 文件目录怎么放
-- 什么情况算完成
-
-### 3. Task Spec
-
-研发中期最高频使用。
-
-用于回答：
-
-- 本轮只做什么
-- 本轮不做什么
-- 预计修改哪些文件
-- 怎么验收
-- 哪些风险不能碰
-
-### 4. Computer-Use E2E Gate
-
-高成本、按需触发的真实用户链路验证。
-
-用于回答：
-
-- 是否需要像真实用户一样操作一遍
-- 从打开页面到完成任务的路径是什么
-- 鼠标、键盘、点击、输入、刷新后的结果是否正确
-- 单元测试无法覆盖的交互链路是否真的可用
-
-## 推荐目录
-
-每个项目可以这样放规格文件：
+## 推荐项目目录
 
 ```text
 project-root/
@@ -79,47 +44,83 @@ project-root/
 ├── docs/
 │   ├── PRODUCT_BRIEF.md
 │   ├── AI_SDD.md
-│   ├── TASKS/
-│   │   └── 001-example-task.md
-│   └── E2E/
-│       └── 001-core-user-path.md
-├── src/
-└── ...
+│   ├── ARCHITECTURE_SNAPSHOT.md
+│   ├── DESIGN_SPEC.md
+│   └── TASKS/
+│       └── TASK_001_xxx.md
+└── src/
 ```
 
-## 推荐调用语
+## 使用示例
 
 ### 新项目
 
-请使用 kun-vibe-coding-ai-sdd。当前是新项目，不要写代码。请先执行想法压力测试，然后生成 Product Brief、MVP 边界和 AI-SDD 草案。
+```text
+使用 Kun Coding Router，帮我开工这个新项目：我想做一个个人游戏市场情报中台。
+```
+
+Router 应该启用：
+
+- 想法压力测试
+- 开工规格
+- Product Brief
+- AI-SDD
+- 必要时设计门 / 架构门
 
 ### 研发中期
 
-请使用 kun-vibe-coding-ai-sdd。当前项目已进入研发中期，请先读取 PROJECT_STATE.md，不要重新做想法验证，不要重写完整 AI-SDD。只围绕本轮任务生成 Task Spec，并执行安全施工、验收和 Git 保存。
+```text
+使用 Kun Coding Router，继续开发当前项目。本轮任务是增加买量测试信息录入功能。
+```
+
+Router 应该启用：
+
+- PROJECT_STATE
+- Task Spec
+- Test First Gate（如涉及表单/数据）
+- Safe Construction
+- E2E Gate（如涉及多页面交互）
+- Verification / Git / Report
 
 ### Bug 修复
 
-请使用 kun-vibe-coding-ai-sdd。当前任务是 bug 修复。请先明确复现路径，把复现路径写进 Task Spec 和 Test First Gate，只修这个 bug，不做无关重构。
+```text
+使用 Kun Coding Router，修这个 bug：新增记录后刷新页面数据丢失。
+```
 
-### Computer-Use E2E 验证
+Router 应该启用：
 
-请使用 kun-vibe-coding-ai-sdd。当前任务涉及复杂交互 / 多页面流程 / 数据持久化 / 部署后公网访问。请按需开启 Computer-Use E2E Gate，先写真实用户操作路径，再像用户一样完成点击、输入、提交、刷新和结果检查。
+- 复现路径
+- Test First Gate
+- Safe Construction
+- Verification
 
-### 小修改
-
-请使用 kun-vibe-coding-ai-sdd。当前只是 UI/文案小修改。请跳过 Product Brief、AI-SDD、架构门和 Computer-Use E2E Gate，只做最小修改并给验收方式。
-
-
-## 不包含复盘沉淀
-
-本 Skill 只负责从项目启动到开发、验收、Git 保存。
-
-项目完成后的复盘、经验萃取、Prompt 沉淀、组件复用总结、SOP 更新建议，建议交给单独的「项目复盘沉淀 Skill」。
-
-
-## V0.4 新增文件
+## 文件说明
 
 ```text
-references/09-computer-use-e2e-gate.md
-references/10-verification-git-report.md
+kun-coding-router-v0.5/
+├── SKILL.md
+├── README.md
+└── references/
+    ├── 00-skill-index.md
+    ├── 01-idea-pressure-test.md
+    ├── 02-spec-start-qiaomu-inspired.md
+    ├── 03-product-brief-mvp.md
+    ├── 04-ai-sdd-template.md
+    ├── 05-task-spec-template.md
+    ├── 06-design-gate.md
+    ├── 07-architecture-gate.md
+    ├── 08-test-first-gate.md
+    ├── 09-codex-safe-construction.md
+    ├── 10-computer-use-e2e-gate.md
+    ├── 11-verification-git-report.md
+    └── PROJECT_STATE.template.md
 ```
+
+## 核心原则
+
+SOP 是地图，不是每次都必须从起点走到终点。
+
+Skill 是导航，不是把整张地图塞进当前上下文。
+
+Router 的价值是：让用户不用记 Skill 名字，也能在正确阶段使用正确流程。

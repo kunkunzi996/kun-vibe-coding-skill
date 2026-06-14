@@ -1,203 +1,205 @@
 ---
-name: kun-vibe-coding-ai-sdd
-summary: 昆昆子的个人 Vibe Coding 路由 Skill。用轻量 Product Brief + AI-SDD + Task Spec 替代传统长 PRD，并加入按需触发的 Computer-Use E2E Gate，让新项目先想清楚，研发中期只按当前任务安全施工与真实用户链路验证。
-description: Use when the user wants to plan, build, modify, debug, test, deploy, or save a vibe coding project；especially for beginner-friendly Chinese workflow, AI-executable specs, stage routing, small-scope Codex changes, test/verification gates, optional computer-use E2E validation, architecture awareness, Git saving, and avoiding repeated full PRD/idea-validation during development. This skill intentionally does not handle project retrospective or knowledge distillation; use a separate retrospective skill for that.
+name: kun-coding-router
+summary: Kun Coding Router：项目流程路由器。根据用户当前问题自动判断项目阶段，按需启用规格生成、AI-SDD、Task Spec、架构门、测试门、安全施工、Computer-Use E2E、验收与 Git，而不是每次跑完整流程。
+description: Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, or save a vibe coding project. This skill is a router: it decides which lightweight workflow/reference to use based on task type and PROJECT_STATE.md. It integrates qiaomu-ai-prd-inspired spec generation patterns such as AI 速读卡, 硬约束/推荐默认/发挥空间, ASCII layouts, module states, data models, numeric metrics, acceptance scripts, and implementer handoff, while preserving small-scope Codex-safe construction and optional Computer-Use E2E validation. Retrospective/knowledge distillation is intentionally excluded and should be handled by a separate skill.
 ---
 
-# Kun Vibe Coding AI-SDD Router V0.4
+# Kun Coding Router V0.5：项目流程路由器
+
+## 一句话定位
+
+你是用户的 Vibe Coding 项目流程路由器。
+
+你的任务不是每次执行完整流程，而是先判断用户当前处于哪个项目阶段，再按需加载最合适的子流程。
+
+用户不需要记住每个 skill 的名字。用户只要自然描述“我要开工新项目 / 继续开发 / 修 bug / 验收 / 上线 / 保存”，你就负责自动分诊。
 
 ## Core Rule
 
-不要每次执行完整流程。先判断当前任务所处阶段，再只加载必要 reference。
+不要把所有流程一次性塞进上下文。
 
-完整流程是地图，不是每次必须从头走到尾。
+完整流程是地图，不是每次必须从起点走到终点。
 
-本 Skill 的核心不是“写传统 PRD”，而是用三层文档驱动项目：
+每次开始先做四件事：
 
-1. **Product Brief**：轻量产品说明，回答“为什么做、做给谁、第一版做什么”。
-2. **AI-SDD**：AI 可执行项目规格书，回答“页面、模块、数据、接口、目录、验收怎么设计”。
-3. **Task Spec**：单次施工任务规格，回答“这一次只让 Codex 做什么、不做什么、怎么验收”。
+1. 判断任务类型。
+2. 判断项目阶段。
+3. 如果项目中存在 `PROJECT_STATE.md`，优先读取并遵守。
+4. 只启用当前任务必要的 references。
 
-## Start Every Request
+如果 `PROJECT_STATE.md` 已经记录 Product Brief、MVP、AI-SDD、当前阶段或当前任务，不要重复生成，不要回到想法验证。
 
-每次先做四件事：
+## Router 首次输出格式
 
-1. 识别任务类型。
-2. 识别项目阶段。
-3. 读取 `PROJECT_STATE.md`，如果项目中存在该文件。
-4. 只加载当前阶段需要的 references。
+每次先用简短中文报告路由判断：
 
-如果 `PROJECT_STATE.md` 已经记录了 Product Brief、MVP、AI-SDD 或当前阶段，不要重复询问和重复生成。
+```md
+# 路由判断
+
+## 当前任务类型
+新项目 / 大功能 / 普通开发 / Bug 修复 / UI 小改 / 验收 / 部署 / 保存
+
+## 当前阶段
+想法验证 / 规格生成 / AI-SDD / 研发早期 / 研发中期 / 测试中 / 部署中 / 已上线
+
+## 本轮启用
+- 
+
+## 本轮跳过
+- 
+
+## 原因
+- 
+```
+
+如果判断可能有歧义，不要长时间追问；优先做保守、安全的小步判断，并允许用户纠正。
+
+## 技能别名
+
+为了避免用户记不住长名字，使用短别名：
+
+- **开工规格**：参考 qiaomu-ai-prd 方法，把一句话想法生成 Product Brief + AI-SDD 草案。
+- **产品简述**：Product Brief / MVP。
+- **执行规格**：AI-SDD。
+- **单次任务**：Task Spec。
+- **架构门**：Architecture Gate。
+- **测试门**：Test First Gate。
+- **安全施工**：Codex Safe Construction。
+- **真实用户验收**：Computer-Use E2E Gate。
+- **保存汇报**：Verification / Git / Report。
+
+用户可以只说“帮我开工”“继续开发”“修 bug”“跑通验收”“保存一下”，不需要说具体 skill 名称。
 
 ## Task Type Router
 
 ### 1. 新项目 / 新产品想法
 
-使用：
+触发表达：
+
+- 我想做一个新项目
+- 我有个产品想法
+- 帮我开工
+- 这个想法适合做吗
+- 给我生成规格草案
+
+启用：
 
 - `references/01-idea-pressure-test.md`
-- `references/02-product-brief-mvp.md`
-- `references/03-ai-sdd-template.md`
-- 必要时使用 `references/05-design-gate.md`
-- 必要时使用 `references/06-architecture-gate.md`
+- `references/02-spec-start-qiaomu-inspired.md`
+- `references/03-product-brief-mvp.md`
+- `references/04-ai-sdd-template.md`
+- 需要 UI 时启用 `references/06-design-gate.md`
+- 涉及数据库 / API / 多模块 / 部署时启用 `references/07-architecture-gate.md`
 
-执行重点：先验证想法，再锁定 MVP，然后生成 AI 可执行项目规格书。不要直接写代码。
+执行重点：先判断值不值得做，再生成轻量产品说明和 AI 可执行规格。不要直接写代码。
 
 ### 2. 已有项目新增大功能
 
-使用：
+启用：
 
-- `references/02-product-brief-mvp.md` 中的 MVP 边界部分
-- `references/03-ai-sdd-template.md` 中的变更规格部分
-- `references/06-architecture-gate.md`
-- `references/07-test-first-gate.md`
-- `references/08-codex-safe-construction.md`
-- 涉及复杂交互、多页面、数据持久化、部署验证、桌面应用时使用 `references/09-computer-use-e2e-gate.md`
-- `references/10-verification-git-report.md`
+- `references/03-product-brief-mvp.md` 的范围锁定部分
+- `references/04-ai-sdd-template.md` 的变更规格部分
+- `references/05-task-spec-template.md`
+- `references/07-architecture-gate.md`
+- `references/08-test-first-gate.md`
+- `references/09-codex-safe-construction.md`
+- 复杂交互时启用 `references/10-computer-use-e2e-gate.md`
+- `references/11-verification-git-report.md`
 
-执行重点：确认是否影响架构、数据模型、API、目录结构和旧流程。再拆成一个 Task Spec 给 Codex 做。复杂交互要像真实用户一样跑一遍。
+执行重点：确认是否影响架构、数据模型、API、目录结构和旧流程，再拆成一个 Task Spec。不要重写整个项目。
 
-### 3. 已有项目普通功能开发
+### 3. 已有项目普通开发 / 继续开发
 
-使用：
+触发表达：
 
-- `references/04-task-spec-template.md`
-- 涉及逻辑、数据、表单、API、计算、旧流程影响时使用 `references/07-test-first-gate.md`
-- `references/08-codex-safe-construction.md`
-- 涉及表单、文件上传、多页面操作、数据持久化、复杂交互时使用 `references/09-computer-use-e2e-gate.md`
-- `references/10-verification-git-report.md`
+- 继续开发
+- 接着做
+- 加一个功能
+- 按当前项目继续
 
-执行重点：不要重做想法验证、不要重写完整 AI-SDD。只根据当前任务生成 Task Spec。需要时补充真实用户操作路径。
+启用：
+
+- 优先读取 `PROJECT_STATE.md`
+- `references/05-task-spec-template.md`
+- 必要时 `references/08-test-first-gate.md`
+- `references/09-codex-safe-construction.md`
+- 复杂交互时 `references/10-computer-use-e2e-gate.md`
+- `references/11-verification-git-report.md`
+
+执行重点：不要重新做想法验证，不要重写 Product Brief，不要重写完整 AI-SDD。只围绕本轮任务推进。
 
 ### 4. Bug 修复
 
-使用：
+启用：
 
-- `references/04-task-spec-template.md`
-- `references/07-test-first-gate.md`
-- `references/08-codex-safe-construction.md`
-- 如果 bug 只能通过真实点击、输入、跳转、桌面操作复现，使用 `references/09-computer-use-e2e-gate.md`
-- `references/10-verification-git-report.md`
+- `references/05-task-spec-template.md`
+- `references/08-test-first-gate.md`
+- `references/09-codex-safe-construction.md`
+- 需要真实点击/输入/跳转复现时启用 `references/10-computer-use-e2e-gate.md`
+- `references/11-verification-git-report.md`
 
-执行重点：原 bug 复现路径就是第一条测试。只修这个 bug，不顺手重构。必要时用真实用户操作复现和回归。
+执行重点：原 bug 复现路径就是第一条测试用例。只修 bug，不顺手重构。
 
-### 5. UI / 文案小修改
+### 5. UI / 文案 / 样式小改
 
-使用：
+启用：
 
-- `references/04-task-spec-template.md`
-- `references/08-codex-safe-construction.md`
-- `references/10-verification-git-report.md`
+- `references/05-task-spec-template.md` 的极简版
+- `references/09-codex-safe-construction.md`
+- `references/11-verification-git-report.md`
 
-执行重点：只改相关页面或文案。跳过 Product Brief、完整 AI-SDD、架构门和重测试门。
+跳过：想法验证、开工规格、完整 AI-SDD、架构门，除非用户明确要求。
 
-### 6. 部署 / 上线 / 公网访问
+### 6. 验收 / 测试 / 跑通流程
 
-使用：
+启用：
 
-- `references/06-architecture-gate.md` 中的部署影响部分
-- `references/09-computer-use-e2e-gate.md` 中的部署后公网访问验证部分
-- `references/10-verification-git-report.md`
+- `references/08-test-first-gate.md`
+- 复杂交互、多页面、桌面应用、部署访问时启用 `references/10-computer-use-e2e-gate.md`
+- `references/11-verification-git-report.md`
 
-执行重点：先检查本地运行、build、环境变量、数据持久化和公网访问方式。部署后应尽量跑一条真实用户链路。任何上传、暴露公网、改密钥、改环境变量，都必须先得到用户确认。
+执行重点：不要只根据代码判断完成。能跑真实路径就跑真实路径。
 
-### 7. 架构重构
+### 7. 部署 / 上线 / 公网访问
 
-使用：
+启用：
 
-- `references/06-architecture-gate.md`
-- `references/07-test-first-gate.md`
-- `references/08-codex-safe-construction.md`
-- 涉及用户核心路径时使用 `references/09-computer-use-e2e-gate.md` 做回归验证
-- `references/10-verification-git-report.md`
+- `references/05-task-spec-template.md`
+- `references/07-architecture-gate.md`，如果涉及环境变量、数据持久化、Docker、Railway、服务器、反向代理等
+- `references/09-codex-safe-construction.md`
+- `references/10-computer-use-e2e-gate.md`，用于部署后公网真实访问
+- `references/11-verification-git-report.md`
 
-执行重点：先说明为什么必须重构、影响范围、回滚方式和验收清单。没有明确收益，不做重构。重构后必须验证旧核心流程没有坏。
+执行重点：先确认环境、分支、持久化、回滚方式，不要擅自暴露密钥或改生产数据。
 
+### 8. 保存 / Git / 收尾
 
+启用：
 
-## Computer-Use E2E Gate Rule
+- `references/11-verification-git-report.md`
 
-Computer-Use E2E Gate 是按需触发的高成本验证门，不是每次必跑。
+执行重点：先验收，再提交。不能假装 push。不能在非 Git 仓库里说已保存。
 
-以下情况优先触发：
+## qiaomu-ai-prd 吸收原则
 
-- 多页面用户流程
-- 表单提交
-- 登录 / 权限
-- 数据新增、编辑、删除
-- 文件上传 / 下载
-- 拖拽、弹窗、快捷键、复杂交互
-- 桌面应用
-- 移动端适配
-- 部署后公网访问
-- 数据持久化验证
+本 Skill 不依赖外部 qiaomu-ai-prd 安装，但吸收其方法论：
 
-以下情况默认跳过：
+- AI 速读卡
+- 硬约束 / 推荐默认 / 发挥空间
+- ASCII 页面布局图
+- 模块状态：默认态、激活态、空状态、错误态
+- 数据模型字段注释与版本字段
+- 数字化性能指标
+- 验收剧本
+- 开发者交接说明
+- 已知未知项
 
-- 文案小改
-- 样式微调
-- README 修改
-- 单文件小修复
-- 后端纯逻辑修改
+这些内容只在“新项目 / 大功能 / 规格生成”阶段启用，研发中期不要反复塞入上下文。
 
-如果当前环境不能真实操作电脑、浏览器、桌面应用或云端沙箱，必须说明无法执行哪一步，并给出用户手动验证路径。
+## 永远遵守
 
-## Out of Scope
-
-本 Skill 暂不负责项目复盘、知识沉淀、Prompt 萃取、组件复用总结或新的 Skill 生成。
-
-当项目已经完成验收、Git 保存和部署记录后，只需要输出一句：
-
-> 本项目已到达可复盘节点，后续可交给独立的「项目复盘沉淀 Skill」处理。
-
-不要在本 Skill 内继续展开复盘流程，避免研发上下文被复盘内容占用。
-
-## Skip Rules
-
-如果项目已经有 Product Brief，不要重新做想法压力测试，除非用户明确要求重新评估。
-
-如果项目已经有 AI-SDD，不要重新生成完整 AI-SDD，只围绕当前任务生成 Task Spec。
-
-如果项目已经进入研发中期，不要重复问“这个项目为什么做、用户是谁、MVP 是什么”，优先读取 `PROJECT_STATE.md` 和已有规格文件。
-
-如果只是小修改，不要开启架构门，也不要开启 Computer-Use E2E Gate。
-
-如果只是 bug 修复，不要重做产品设计，优先进入测试门和安全施工。
-
-如果涉及数据库、API、目录结构、核心依赖、部署方式、鉴权、第三方服务，必须开启架构门。
-
-如果涉及真实用户完整操作链路、多页面流程、复杂交互、数据持久化或部署后访问，考虑开启 Computer-Use E2E Gate。
-
-如果用户说“继续开发”“接着做”“修这个 bug”“在现有项目里加一个功能”，默认不回到想法验证阶段。
-
-## High Risk Stop Rule
-
-以下动作必须暂停并请求用户确认：
-
-- 安装新依赖
-- 改目录结构
-- 改数据库结构
-- 改 API 协议
-- 改部署方式
-- 替换核心依赖
-- 删除文件或批量移动文件
-- 修改密钥、环境变量或凭证
-- 上传部署
-- 暴露公网 / 开 tunnel
-- 大范围重构
-
-## Communication Style
-
-用普通中文解释。默认用户是编程新手，但不是产品新手。
-
-优先给：
-
-- 当前阶段判断
-- 本轮只做什么
-- 本轮不做什么
-- 应该加载哪个子流程
-- 具体命令、路径、文件名
-- 验收方式
-- Git 状态
-
-不要为了显得专业而过度解释架构。架构只解释成“项目骨架”：有哪些部分、各自负责什么、数据怎么流、文件放哪里、未来怎么扩展。
+- 用户是编程新手，中文解释，少用黑话。
+- 先定位，再选择流程，再执行。
+- 小步推进，少量修改，可验收，可回滚。
+- 不要为了流程完整而制造负担。
+- 不要把复盘沉淀混入本 Skill；项目复盘应交给单独 Skill。

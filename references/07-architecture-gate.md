@@ -1,4 +1,4 @@
-# 06 Architecture Gate：架构门
+# 07 Architecture Gate：架构门
 
 架构门只在必要时使用。不要把每个小修改都变成架构讨论。
 

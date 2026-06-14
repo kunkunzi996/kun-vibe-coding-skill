@@ -1,4 +1,4 @@
-# 10 Verification / Git / Report：验收、保存、汇报
+# 11 Verification / Git / Report：验收、保存、汇报
 
 ## 真实验收
 
@@ -79,10 +79,15 @@ git push
 - 已通过：
 - 未验证：
 
+## Computer-Use E2E
+- 不需要 / 已执行 / 未执行：
+- 说明：
+
 ## Git 状态
+- 分支：
 - commit：
 - push：
-- 当前分支：
+- 未提交文件：
 
 ## 风险与下一步
 - 

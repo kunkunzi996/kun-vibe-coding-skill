@@ -5,7 +5,7 @@
 
 ## 当前阶段
 
-可选：想法验证 / Product Brief / AI-SDD / 设计中 / 架构设计 / 研发早期 / 研发中期 / 测试中 / 部署中 / 已上线
+可选：想法验证 / 开工规格 / Product Brief / AI-SDD / 设计中 / 架构设计 / 研发早期 / 研发中期 / 测试中 / 部署中 / 已上线
 
 
 ## 当前目录
@@ -18,11 +18,13 @@
 
 - Product Brief：docs/PRODUCT_BRIEF.md
 - AI-SDD：docs/AI_SDD.md
+- 架构快照：docs/ARCHITECTURE_SNAPSHOT.md
 - 当前 Task Spec：docs/TASKS/
 
 ## 已完成
 
 - [ ] 想法压力测试
+- [ ] 开工规格
 - [ ] Product Brief
 - [ ] MVP 锁定
 - [ ] AI-SDD v1
@@ -30,6 +32,7 @@
 - [ ] 架构快照
 - [ ] 测试 / 验收清单
 - [ ] 初版开发
+- [ ] Computer-Use E2E
 - [ ] 本地验收
 - [ ] 部署
 
@@ -48,6 +51,18 @@
 ## 第一版暂不做
 
 
+## 硬约束
+
+- 
+
+## 推荐默认
+
+- 
+
+## 发挥空间
+
+- 
+
 ## 核心验收标准
 
 - 
@@ -65,7 +80,6 @@
 - commit：
 - push：
 
-
 ## Computer-Use E2E 状态
 
 - [ ] 本项目不需要 Computer-Use E2E
@@ -79,5 +93,3 @@
 1. 
 2. 
 3. 
-4. 
-5. 
