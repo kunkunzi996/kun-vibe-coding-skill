@@ -1,8 +1,7 @@
 ---
 name: kun-coding-router
-description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, or save a vibe coding project. This skill is a router: it decides which lightweight workflow/reference to use based on task type and PROJECT_STATE.md. It integrates qiaomu-ai-prd-inspired spec generation patterns such as AI 速读卡, 硬约束/推荐默认/发挥空间, ASCII layouts, module states, data models, numeric metrics, acceptance scripts, and implementer handoff, while preserving small-scope Codex-safe construction and optional Computer-Use E2E validation. Personal knowledge distillation is intentionally excluded. V0.6 adds a project-scoped cleanup gate for Codex projects: synchronize project docs, PROJECT_STATE, README, AGENTS/CLAUDE rules, and next-step handoff after verified changes, without default Obsidian or personal knowledge-base handling."
-metadata:
-  short-description: "Kun Coding Router：项目流程路由器。根据用户当前问题自动判断项目阶段，按需启用规格生成、AI-SDD、Task Spec、架构门、测试门、安全施工、Computer-Use E2E、验收与 Git。"
+summary: Kun Coding Router：项目流程路由器。根据用户当前问题自动判断项目阶段，按需启用规格生成、AI-SDD、Task Spec、架构门、测试门、安全施工、Computer-Use E2E、验收与 Git，而不是每次跑完整流程。
+description: Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, or save a vibe coding project. This skill is a router: it decides which lightweight workflow/reference to use based on task type and PROJECT_STATE.md. It integrates qiaomu-ai-prd-inspired spec generation patterns such as AI 速读卡, 硬约束/推荐默认/发挥空间, ASCII layouts, module states, data models, numeric metrics, acceptance scripts, and implementer handoff, while preserving small-scope Codex-safe construction and optional Computer-Use E2E validation. Personal knowledge distillation is intentionally excluded. V0.6 adds a project-scoped cleanup gate for Codex projects: synchronize project docs, PROJECT_STATE, README, AGENTS/CLAUDE rules, and next-step handoff after verified changes, without default Obsidian or personal knowledge-base handling.
 ---
 
 # Kun Coding Router V0.6：项目流程路由器
@@ -38,7 +37,7 @@ metadata:
 # 路由判断
 
 ## 当前任务类型
-新项目 / 大功能 / 普通开发 / Bug 修复 / UI 小改 / 验收 / 部署 / 保存
+新项目 / 大功能 / 普通开发 / Bug 修复 / UI 小改 / 验收 / 部署 / 保存 / 项目洁癖 / 后端骨架验收
 
 ## 当前阶段
 想法验证 / 规格生成 / AI-SDD / 研发早期 / 研发中期 / 测试中 / 部署中 / 已上线
@@ -67,6 +66,7 @@ metadata:
 - **测试门**：Test First Gate。
 - **安全施工**：Codex Safe Construction。
 - **真实用户验收**：Computer-Use E2E Gate。
+- **后端验收官**：Backend Architecture Acceptance Reviewer，后端骨架搭完后、写业务前，验收能不能作为稳定起点。
 - **保存汇报**：Verification / Git / Report。
 - **项目洁癖**：Project Cleanup Gate，阶段收尾时同步项目文档、项目状态、AI 施工规则和下一轮入口。
 
@@ -210,7 +210,31 @@ V0.6 吸收 `neat-freak / 洁癖` 的核心思想，但只聚焦 Codex 项目内
 - `references/11-verification-git-report.md`
 - `references/12-project-cleanup-gate.md`
 
-执行重点：只做当前代码项目内部的“洁癖”：同步 README、PROJECT_STATE、docs、AGENTS.md/CLAUDE.md 中必要的项目规则和下一轮入口。默认不处理 Obsidian 或个人知识库。
+执行重点：只做当前代码项目内部的"洁癖"：同步 README、PROJECT_STATE、docs、AGENTS.md/CLAUDE.md 中必要的项目规则和下一轮入口。默认不处理 Obsidian 或个人知识库。
+
+### 10. 后端骨架验收 / 后端架构验收
+
+触发表达：
+
+- 后端搭好了
+- 帮我验收一下后端架构
+- 能不能开始写业务了
+- AI 搭的后端能不能用
+- 后端越写越乱
+- 接口、目录、错误处理对不上
+
+启用：
+
+- `references/07-architecture-gate.md`（如果还没有蓝图，先补上）
+- `references/13-backend-architecture-acceptance.md`
+- 验收通过后再启用 `references/11-verification-git-report.md` 提交 Git 稳定版本
+
+执行重点：
+
+- 本门是 07 架构门的下游：07 画蓝图，13 收骨架。
+- **不写业务代码**，只验收规则、目录责任、请求链路、接口响应、框架复用、运行证据包和后端架构实施真源文档。
+- 没有证据的项目一律标记「未验证」，禁止把「理论可行」「应该没问题」写成通过。
+- 验收不通过时，必须明确告诉用户："暂时不要急着写业务"，并产出可执行整改指令。
 
 ## qiaomu-ai-prd 吸收原则
 
