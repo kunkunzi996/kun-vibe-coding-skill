@@ -1,7 +1,8 @@
 ---
 name: kun-coding-router
-summary: Kun Coding Router：项目流程路由器。根据用户当前问题自动判断项目阶段，按需启用规格生成、AI-SDD、Task Spec、架构门、测试门、安全施工、Computer-Use E2E、验收与 Git，而不是每次跑完整流程。
-description: Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, or save a vibe coding project. This skill is a router: it decides which lightweight workflow/reference to use based on task type and PROJECT_STATE.md. It integrates qiaomu-ai-prd-inspired spec generation patterns such as AI 速读卡, 硬约束/推荐默认/发挥空间, ASCII layouts, module states, data models, numeric metrics, acceptance scripts, and implementer handoff, while preserving small-scope Codex-safe construction and optional Computer-Use E2E validation. Personal knowledge distillation is intentionally excluded. V0.6 adds a project-scoped cleanup gate for Codex projects: synchronize project docs, PROJECT_STATE, README, AGENTS/CLAUDE rules, and next-step handoff after verified changes, without default Obsidian or personal knowledge-base handling.
+description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, or save a vibe coding project. This skill is a router: it decides which lightweight workflow/reference to use based on task type and PROJECT_STATE.md. It integrates qiaomu-ai-prd-inspired spec generation patterns such as AI 速读卡, 硬约束/推荐默认/发挥空间, ASCII layouts, module states, data models, numeric metrics, acceptance scripts, and implementer handoff, while preserving small-scope Codex-safe construction and optional Computer-Use E2E validation. Personal knowledge distillation is intentionally excluded. V0.6 adds a project-scoped cleanup gate for Codex projects: synchronize project docs, PROJECT_STATE, README, AGENTS/CLAUDE rules, and next-step handoff after verified changes, without default Obsidian or personal knowledge-base handling."
+metadata:
+  short-description: "Kun Coding Router：项目流程路由器。根据用户当前问题自动判断项目阶段，按需启用规格生成、AI-SDD、Task Spec、架构门、测试门、安全施工、Computer-Use E2E、验收与 Git。"
 ---
 
 # Kun Coding Router V0.6：项目流程路由器
