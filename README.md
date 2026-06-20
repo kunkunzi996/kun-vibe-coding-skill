@@ -1,4 +1,4 @@
-# Kun Coding Router V0.7.2：项目流程调度器
+# Kun Coding Router V0.7.3：项目流程调度器
 
 这是昆昆子的个人 Vibe Coding 总入口 Skill。
 

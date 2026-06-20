@@ -1,12 +1,12 @@
 ---
 name: kun-coding-router
-description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.2 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, and adds skill invocation layers, task routing map, project setup, and handoff protocol. A light routing mode and self-downgrade rule keep small changes cheap; merged safety sentinels and reverse examples reduce mistakes."
+description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.3 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, and adds skill invocation layers, task routing map, project setup, and handoff protocol. A light routing mode and self-downgrade rule keep small changes cheap; merged safety sentinels and reverse examples reduce mistakes."
 metadata:
-  short-description: "Kun Coding Router V0.7.2：项目流程调度器。判断阶段、路由子 Skill、安排顺序、强制确认、验收收尾。"
-  version: "0.7.2"
+  short-description: "Kun Coding Router V0.7.3：项目流程调度器。判断阶段、路由子 Skill、安排顺序、强制确认、验收收尾。"
+  version: "0.7.3"
 ---
 
-# Kun Coding Router V0.7.2：项目流程调度器
+# Kun Coding Router V0.7.3：项目流程调度器
 
 ## 一句话定位
 
@@ -61,7 +61,7 @@ metadata:
 
 ## 开工门禁（Pre-Coding Gate，V0.6.2 保留）
 
-`references/03-pre-coding-gate.md` 是正式写代码前的轻量门禁，只负责拦截和路由，不替代 Product Brief、AI-SDD、Git、设计门、架构门或项目洁癖。
+`references/03-pre-coding-gate.md` 是正式写代码前的轻量门禁，只负责拦截和路由，不替代 Product Brief、AI-SDD、Git、设计门、架构门或项目洁癖。它会强制确认本轮分支策略（新功能/大改开 `feature/xxx`，小修/小 bug 走当前分支），未确认不进入施工。
 
 ### 必须触发
 
