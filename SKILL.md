@@ -1,12 +1,12 @@
 ---
 name: kun-coding-router
-description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.3 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, and adds skill invocation layers, task routing map, project setup, and handoff protocol. A light routing mode and self-downgrade rule keep small changes cheap; merged safety sentinels and reverse examples reduce mistakes."
+description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.4 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, and adds skill invocation layers, task routing map, project setup, and handoff protocol. A light routing mode and self-downgrade rule keep small changes cheap; merged safety sentinels and reverse examples reduce mistakes."
 metadata:
-  short-description: "Kun Coding Router V0.7.3：项目流程调度器。判断阶段、路由子 Skill、安排顺序、强制确认、验收收尾。"
-  version: "0.7.3"
+  short-description: "Kun Coding Router V0.7.4：项目流程调度器。判断阶段、路由子 Skill、安排顺序、强制确认、验收收尾。"
+  version: "0.7.4"
 ---
 
-# Kun Coding Router V0.7.3：项目流程调度器
+# Kun Coding Router V0.7.4：项目流程调度器
 
 ## 一句话定位
 
@@ -351,6 +351,7 @@ UI 小改 / 文案
 - 用户是编程新手，中文解释，少用黑话。
 - 先定位，再选择流程，再执行。
 - 小步推进，少量修改，可验收，可回滚。
+- 每轮完成后必须给「用户手动验收指引」：打开哪里 → 点什么 → 看到什么算成功 → 刷新查什么 → 旧功能回归查什么。不许只说「已完成 / build 通过 / 应该可以」。小改给一两步轻量版，功能 / 数据 / Bug / 部署给完整步骤（模板见 `references/12-verification-git-report.md`）。
 - Router 负责调度，不替代所有子 Skill。
 - 不要为了流程完整而制造负担；低风险小改用轻量路由。
 - 用户嫌重时执行自降级规则，不要固执。
