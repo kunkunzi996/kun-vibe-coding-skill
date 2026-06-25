@@ -82,7 +82,20 @@ git commit -m "init project baseline"
 
 ## Git 保存规则
 
-完成并验收后：
+完成修改或验收后，默认不要直接执行 `git add` / `git commit` / `git push`。
+
+默认流程：
+
+1. 先输出修改文件清单、验收结果、当前 `git status`、建议 commit message、是否建议保存版本。
+2. 等用户明确确认保存后，再执行 Git 保存命令。
+
+只有在以下情况才允许实际执行 `git add` / `git commit` / `git push`：
+
+- 用户明确说“保存一下 / 提交 Git / 帮我 commit / 同步到 GitHub”。
+- 或用户在本轮开始前明确授权“完成并验收后自动提交”。
+- 或当前任务本身就是“保存 / Git”。
+
+用户确认后执行：
 
 ```bash
 git status
@@ -94,6 +107,8 @@ git push
 如果没有远程仓库，只 commit，不假装 push。
 
 如果当前目录不是 Git 仓库，直接说明。
+
+禁止未经用户确认自动 commit / push。
 
 ## 与项目洁癖 Gate 的衔接
 
