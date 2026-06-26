@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## V0.7.6
+
+分层读档 / 按需写档规则。把已经定义好的 `CONTEXT.md` / `ACCEPTANCE.md` / `DECISIONS.md` 正式纳入稳定的"何时读、何时写"规则，避免 AI 推翻旧决策、误解业务口径或跳过验收，同时不把小改拖成文档工程。不新增模块、不接 Obsidian、不加 `NEXT_ACTIONS.md`。
+
+### 新增
+
+- `SKILL.md`：「Router 必须优先读取的项目文件」改为分层读档——`PROJECT_STATE` / `HANDOFF` 为默认读档；`DECISIONS` / `CONTEXT` / `ACCEPTANCE` 按任务触发读。新增**全 Skill 唯一一份「辅助上下文触发表」**作为单一事实源，其余文件引用它而不复制。低风险小改不强制读这三个文件。
+- `references/17-project-setup.md`：新增「辅助上下文文件创建原则」（不默认创建三件套、宁缺空壳）与「辅助上下文写入规则」（DECISIONS / CONTEXT / ACCEPTANCE 各自的写 / 不写清单 + 写档总判据）。新增「写档时机：即时 vs 收尾」一节，划清与 `13-project-cleanup-gate.md` 的边界：重大稳定信息可即时写，零散文档同步仍归洁癖门。
+
+### 调整
+
+- `references/16-task-routing-map.md`：「路由判断总原则」由四件事扩为五件事，新增"按 SKILL.md 触发表判断是否读辅助上下文"，并声明各小节不重复对应关系。大功能 / 普通开发 / Bug 修复 / 验收测试各小节补一行「按需读」指引（验收节优先读 `ACCEPTANCE.md`，Bug 节修复后可回写回归路径到 `ACCEPTANCE.md`）；Project Setup 节补「不默认创建空壳」提示。
+- `SKILL.md`：版本号、标题、`short-description`、`description` 升级到 V0.7.6。
+
 ## V0.7.5
 
 Git 保存确认小补丁：防止普通开发、Bug 修复或小改完成后，AI 未经用户确认就自动 `commit` / `push`。

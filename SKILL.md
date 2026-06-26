@@ -1,12 +1,12 @@
 ---
 name: kun-coding-router
-description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.5 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, and adds skill invocation layers, task routing map, project setup, and handoff protocol. V0.7.5 adds an explicit Git save confirmation guard: do not auto commit or push unless the user asks or pre-authorizes it. A light routing mode and self-downgrade rule keep small changes cheap; merged safety sentinels and reverse examples reduce mistakes."
+description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.6 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, skill invocation layers, task routing map, project setup, handoff protocol, and the Git save confirmation guard. V0.7.6 adds layered project-context rules: PROJECT_STATE / HANDOFF are default reads, while DECISIONS / CONTEXT / ACCEPTANCE are read or written only when the task triggers them, avoiding documentation overhead. A light routing mode and self-downgrade rule keep small changes cheap."
 metadata:
-  short-description: "Kun Coding Router V0.7.5：项目流程调度器。判断阶段、路由子 Skill、安排顺序、强制确认、验收收尾。"
-  version: "0.7.5"
+  short-description: "Kun Coding Router V0.7.6：项目流程调度器。判断阶段、路由子 Skill、分层读档、强制确认、验收收尾。"
+  version: "0.7.6"
 ---
 
-# Kun Coding Router V0.7.5：项目流程调度器
+# Kun Coding Router V0.7.6：项目流程调度器
 
 ## 一句话定位
 
@@ -43,19 +43,42 @@ metadata:
 
 ---
 
-## Router 必须优先读取的项目文件
+## Router 必须优先读取的项目文件（分层读档）
 
-在已有项目中，如果文件存在，必须按优先级读取：
+在已有项目中，如果文件存在，**按任务需要分层读取**，不要为了"完整"把所有文档一次性塞进上下文。
+
+### A. 默认读档：每次接续已有项目都优先读
 
 1. `PROJECT_STATE.md`：当前项目状态、阶段、下一轮入口、验收状态。
 2. `HANDOFF.md`：上一轮交接、未完成任务、禁止事项、建议调用 Skill。
+
+如果用户是新窗口继续开发，且存在 `HANDOFF.md`，必须先读 Handoff，再决定本轮路由。
+
+如果 `PROJECT_STATE.md` 已经记录 Product Brief、MVP、AI-SDD、当前阶段或当前任务，不要重复生成，不要回到想法验证。
+
+### B. 按任务触发读档：只在本轮涉及对应内容时读
+
+> 这是全 Skill 唯一一份"辅助上下文触发表"。16 表和其他 references 引用本表，不再各自复制对应关系。
+
+| 文件 | 本轮触发条件（命中任一就读） |
+|---|---|
+| `DECISIONS.md` | 技术栈选择、架构调整、是否重构、数据库 / 存储方式、MVP 范围或功能取舍，或 AI 准备推翻旧方案 |
+| `CONTEXT.md` | 业务术语、数据字段、计算口径、页面 / 模块含义、目录责任、用户的特殊叫法 |
+| `ACCEPTANCE.md` | 启动、测试、功能验收、Bug 回归、部署检查、完成报告或 Handoff 交接 |
+
+### C. 项目施工规则与说明（相关时读）
+
 3. `AGENTS.md` / `CLAUDE.md`：项目内 AI 施工规则、禁区、命令。
 4. `README.md`：启动、运行、部署方式。
 5. `docs/` 中与当前任务相关的规格、架构、任务文档。
 
-如果 `PROJECT_STATE.md` 已经记录 Product Brief、MVP、AI-SDD、当前阶段或当前任务，不要重复生成，不要回到想法验证。
+### D. 不读档的情况
 
-如果用户是新窗口继续开发，且存在 `HANDOFF.md`，必须先读 Handoff，再决定本轮路由。
+低风险 UI 小改、文案小改、单行样式调整，如果不涉及业务逻辑、数据、验收、架构或旧决策，不强制读取 `DECISIONS.md` / `CONTEXT.md` / `ACCEPTANCE.md`。
+
+> 原则：先读会影响本轮判断的文件，不为了流程完整制造上下文负担。
+
+辅助上下文文件**什么时候往里写**（写档规则）见 `references/17-project-setup.md`，本文件只负责"何时读"。
 
 ---
 

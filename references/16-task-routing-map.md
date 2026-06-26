@@ -10,12 +10,15 @@
 
 ## 路由判断总原则
 
-每次判断任务时，先看四件事：
+每次判断任务时，先看五件事：
 
 1. 用户是在做新项目，还是已有项目？
 2. 本轮是规划、施工、修 Bug、验收、部署、保存，还是交接？
 3. 本轮是否影响架构、数据、API、运行命令、环境变量或多模块？
 4. 项目是否已有 `PROJECT_STATE.md` / `HANDOFF.md` / 后端验收状态？
+5. 本轮是否触发辅助上下文读取：按 SKILL.md「分层读档 B 段·辅助上下文触发表」判断是否读 `DECISIONS.md` / `CONTEXT.md` / `ACCEPTANCE.md`。
+
+> 下面各任务小节只标注"本轮通常需要哪些辅助上下文"，具体触发条件统一以 SKILL.md 的触发表为准，不在此重复对应关系。
 
 ---
 
@@ -70,17 +73,18 @@
 
 1. 读取 `PROJECT_STATE.md`
 2. 如存在，读取 `HANDOFF.md`
-3. `04-product-brief-mvp.md` 的范围锁定部分
-4. `05-ai-sdd-template.md` 的变更规格部分
-5. `06-task-spec-template.md`
-6. 如本轮会进入施工且影响页面 / 数据 / API / 架构 / 目录：先过 `03-pre-coding-gate.md`
-7. `08-architecture-gate.md`
-8. `09-test-first-gate.md`
-9. `10-codex-safe-construction.md`
-10. 复杂交互时 `11-computer-use-e2e-gate.md`
-11. `12-verification-git-report.md`
-12. `13-project-cleanup-gate.md`
-13. 准备新窗口时 `18-handoff-protocol.md`
+3. 按触发表读辅助上下文：涉及技术取舍 / MVP 边界 / 是否重构读 `DECISIONS.md`；涉及业务术语 / 字段 / 计算口径读 `CONTEXT.md`；涉及测试 / 验收 / 部署路径读 `ACCEPTANCE.md`。
+4. `04-product-brief-mvp.md` 的范围锁定部分
+5. `05-ai-sdd-template.md` 的变更规格部分
+6. `06-task-spec-template.md`
+7. 如本轮会进入施工且影响页面 / 数据 / API / 架构 / 目录：先过 `03-pre-coding-gate.md`
+8. `08-architecture-gate.md`
+9. `09-test-first-gate.md`
+10. `10-codex-safe-construction.md`
+11. 复杂交互时 `11-computer-use-e2e-gate.md`
+12. `12-verification-git-report.md`
+13. `13-project-cleanup-gate.md`
+14. 准备新窗口时 `18-handoff-protocol.md`
 
 ## 禁止
 
@@ -114,12 +118,13 @@
 
 1. 读取 `PROJECT_STATE.md`
 2. 如果是新窗口接续，读取 `HANDOFF.md`
-3. `06-task-spec-template.md`
-4. 必要时 `09-test-first-gate.md`
-5. `10-codex-safe-construction.md`
-6. 复杂交互时 `11-computer-use-e2e-gate.md`
-7. `12-verification-git-report.md`
-8. 必要时 `13-project-cleanup-gate.md`
+3. 按触发表读辅助上下文（涉及旧决策 / 业务口径 / 验收回归时才读，详见 SKILL.md 触发表）
+4. `06-task-spec-template.md`
+5. 必要时 `09-test-first-gate.md`
+6. `10-codex-safe-construction.md`
+7. 复杂交互时 `11-computer-use-e2e-gate.md`
+8. `12-verification-git-report.md`
+9. 必要时 `13-project-cleanup-gate.md`
 
 ## 禁止
 
@@ -152,12 +157,13 @@
 
 1. 读取相关报错 / 日志 / 复现描述
 2. 读取 `PROJECT_STATE.md`
-3. `06-task-spec-template.md` 的 Bug 极简版
-4. `09-test-first-gate.md`
-5. `10-codex-safe-construction.md`
-6. 需要真实路径时 `11-computer-use-e2e-gate.md`
-7. `12-verification-git-report.md`
-8. 高复用问题写入 `13-project-cleanup-gate.md` / TROUBLESHOOTING
+3. 按触发表读辅助上下文：Bug 涉及业务口径 / 字段含义 / 计算逻辑读 `CONTEXT.md`；项目已有固定验收 / 回归路径读 `ACCEPTANCE.md`。
+4. `06-task-spec-template.md` 的 Bug 极简版
+5. `09-test-first-gate.md`
+6. `10-codex-safe-construction.md`
+7. 需要真实路径时 `11-computer-use-e2e-gate.md`
+8. `12-verification-git-report.md`
+9. 高复用问题写入 `13-project-cleanup-gate.md` / TROUBLESHOOTING；若形成可复用回归路径，必要时同步到 `ACCEPTANCE.md`
 
 ## 禁止
 
@@ -226,10 +232,11 @@
 
 ## 路由
 
-1. `09-test-first-gate.md`
-2. 复杂交互时 `11-computer-use-e2e-gate.md`
-3. `12-verification-git-report.md`
-4. 验收通过且阶段完成时 `13-project-cleanup-gate.md`
+1. 如存在 `ACCEPTANCE.md`，优先读取（它就是本项目的验收说明书）
+2. `09-test-first-gate.md`
+3. 复杂交互时 `11-computer-use-e2e-gate.md`
+4. `12-verification-git-report.md`
+5. 验收通过且阶段完成时 `13-project-cleanup-gate.md`
 
 ## 禁止
 
@@ -369,6 +376,8 @@
 4. 必要时建议创建 `ACCEPTANCE.md`
 5. 必要时建议创建 `DECISIONS.md`
 6. 必要时建议创建 `AGENTS.md` / `CLAUDE.md`
+
+> 不要默认创建所有辅助上下文文件。只有当项目已经出现稳定术语、验收路径或关键决策时，才建议创建 `CONTEXT.md` / `ACCEPTANCE.md` / `DECISIONS.md`；创建与写入标准见 `17-project-setup.md`。
 
 ## 禁止
 

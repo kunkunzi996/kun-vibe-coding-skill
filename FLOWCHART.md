@@ -1,4 +1,4 @@
-# Kun Coding Router 流程图（V0.7.4）
+# Kun Coding Router 流程图（V0.7.6）
 
 > 这份文档用图带你看懂整个 skill 怎么运转。GitHub 会自动把下面的 Mermaid 代码渲染成图形。
 > 看不懂文字版没关系，先看图，每张图下面都有大白话说明。
@@ -15,7 +15,7 @@ flowchart TD
     B --> B1[1.任务类型<br/>2.项目阶段<br/>3.有没有 PROJECT_STATE<br/>4.是不是新窗口接续<br/>5.是否触发哨兵/门禁<br/>6.只启用必要 references]
 
     B1 --> C{已有项目？<br/>有档案文件吗}
-    C -- 有 --> C1[先读 PROJECT_STATE.md<br/>HANDOFF.md / AGENTS.md / README]
+    C -- 有 --> C1[默认读 PROJECT_STATE.md / HANDOFF.md<br/>按任务触发读 DECISIONS / CONTEXT / ACCEPTANCE<br/>相关时读 AGENTS / README]
     C -- 没有/新项目 --> D
     C1 --> D{触发安全关卡了吗}
 
@@ -76,7 +76,7 @@ flowchart LR
     T5[5.UI/文案小改] --> T5x[轻量：极简Spec→<br/>安全施工→最小验收]
     T6[6.验收/测试] --> T6x[测试门→E2E→验收报告→洁癖]
     T7[7.部署上线] --> T7x[读档→架构门→安全施工→<br/>E2E→验收→洁癖]
-    T8[8.保存Git] --> T8x[先验收→commit→<br/>push或说明无法push]
+    T8[8.保存Git] --> T8x[先验收→给Git保存建议→<br/>用户确认后提交/推送]
     T9[9.项目收尾/洁癖] --> T9x[验收→项目洁癖→<br/>必要时交接]
     T10[10.后端骨架验收] --> T10x[架构门→后端验收官7步→<br/>验收报告。不写业务！]
     T11[11.Project Setup] --> T11x[建最小档案<br/>PROJECT_STATE.minimal]

@@ -1,4 +1,4 @@
-# Kun Coding Router V0.7.5：项目流程调度器
+# Kun Coding Router V0.7.6：项目流程调度器
 
 这是昆昆子的个人 Vibe Coding 总入口 Skill。
 
@@ -14,7 +14,8 @@
 - **V0.7.2**：一致性修订——路由表补回开工门禁、Project Setup 默认改最小模板、README 去掉已删的 RENAME_MAP、清编码坏字符。
 - **V0.7.3**：开工门禁新增「分支策略」强制检查——新功能/大改开 `feature/xxx` 分支，小修/小 bug 走当前分支，未确认不进入施工。
 - **V0.7.4**：强制「用户手动验收指引」——每轮完成后必须告诉用户怎么亲自验收（打开哪、点什么、看到什么算成功、刷新查什么、旧功能回归）。
-- **V0.7.5（本版）**：新增「Git 保存确认护栏」——完成修改后默认只输出保存建议，不自动 `commit` / `push`；只有用户明确要求、提前授权，或当前任务本身就是“保存 / Git”时才执行。完整清单见 `CHANGELOG.md`。
+- **V0.7.5**：新增「Git 保存确认护栏」——完成修改后默认只输出保存建议，不自动 `commit` / `push`；只有用户明确要求、提前授权，或当前任务本身就是“保存 / Git”时才执行。
+- **V0.7.6（本版）**：分层读档 / 按需写档——`PROJECT_STATE` / `HANDOFF` 默认读，`DECISIONS` / `CONTEXT` / `ACCEPTANCE` 按任务触发读写；新增唯一一份「辅助上下文触发表」与写档规则，小改不强制读这三个文件。完整清单见 `CHANGELOG.md`。
 
 V0.7.1 在 V0.6.2 完整底座（01-14）之上，把 V0.7 的 4 个新文件接为 15-18，并保留开工门禁。
 
@@ -31,6 +32,7 @@ V0.7.1 在 V0.6.2 完整底座（01-14）之上，把 V0.7 的 4 个新文件接
 7. **模板拆 minimal/完整**：PROJECT_STATE 与 HANDOFF 各两版，新手默认用最小版。
 8. **保留开工门禁**：V0.6.2 的 `03-pre-coding-gate.md` 继续作为正式施工前的轻量门禁。
 9. **Git 保存确认护栏**：普通开发完成后只输出 Git 保存建议，不自动 `commit` / `push`；版本保存必须由用户明确要求或提前授权。
+10. **分层读档 / 按需写档（V0.7.6）**：`PROJECT_STATE` / `HANDOFF` 默认读；`DECISIONS` / `CONTEXT` / `ACCEPTANCE` 按任务触发读写，避免漏读关键上下文，也避免小改变成文档工程。
 
 > 开工门禁只负责拦截和路由，不重复 Product Brief、AI-SDD、Git、设计门、架构门和项目洁癖的完整内容。
 
@@ -97,7 +99,7 @@ Router 应该启用：想法压力测试 → 开工规格 → 开工门禁 → P
 使用 Kun Coding Router，这个项目我准备开始长期开发，先帮我把项目状态文件和文档结构分类好。
 ```
 
-Router 应该启用：Project Setup + PROJECT_STATE 最小模板 + 必要时 CONTEXT / ACCEPTANCE。重点：先建"户口本"，再写业务。
+Router 应该启用：Project Setup + PROJECT_STATE 最小模板 + 必要时 CONTEXT / ACCEPTANCE / DECISIONS。重点：先建"户口本"，再写业务，不强行创建空壳文档。
 
 ### 研发中期
 
