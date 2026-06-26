@@ -14,6 +14,11 @@
 - `references/16-task-routing-map.md`：「路由判断总原则」由四件事扩为五件事，新增"按 SKILL.md 触发表判断是否读辅助上下文"，并声明各小节不重复对应关系。大功能 / 普通开发 / Bug 修复 / 验收测试各小节补一行「按需读」指引（验收节优先读 `ACCEPTANCE.md`，Bug 节修复后可回写回归路径到 `ACCEPTANCE.md`）；Project Setup 节补「不默认创建空壳」提示。
 - `SKILL.md`：版本号、标题、`short-description`、`description` 升级到 V0.7.6。
 
+### 收尾一致性修复
+
+- `references/13-project-cleanup-gate.md`：Step 3 同步清单新增第 6 条「`CONTEXT.md` / `ACCEPTANCE.md` / `DECISIONS.md`（按需）」并指回 `17`；开头「应处理」清单同步补三文件。闭合 `17`「零散文档同步仍归洁癖门」的引用，避免指过去而洁癖门没有。
+- `references/03-pre-coding-gate.md`：第 7 项「AI 会话角色分工」由必查项降级为独立「建议补充」小节，使标题「必查 6 项」与通过标准（6 项）、输出模板（已建议）自洽。
+
 ## V0.7.5
 
 Git 保存确认小补丁：防止普通开发、Bug 修复或小改完成后，AI 未经用户确认就自动 `commit` / `push`。
