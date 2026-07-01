@@ -1,12 +1,12 @@
 ---
 name: kun-coding-router
-description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.6 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, skill invocation layers, task routing map, project setup, handoff protocol, and the Git save confirmation guard. V0.7.6 adds layered project-context rules: PROJECT_STATE / HANDOFF are default reads, while DECISIONS / CONTEXT / ACCEPTANCE are read or written only when the task triggers them, avoiding documentation overhead. A light routing mode and self-downgrade rule keep small changes cheap."
+description: "Use when the user wants to start, plan, build, continue, modify, debug, test, deploy, hand off, or save a vibe coding project. V0.7.7 keeps Kun Coding Router as a project-manager-style router: it diagnoses task type and project phase, selects the right references/sub-skills, orders them, enforces safety pauses, and requires concrete outputs. It preserves the V0.6.2 Pre-Coding Gate, qiaomu-ai-prd-inspired AI-SDD, Codex-safe construction, Test First Gate, Computer-Use E2E, project cleanup, backend architecture acceptance, skill invocation layers, task routing map, project setup, handoff protocol, and the Git save confirmation guard. V0.7.6 adds layered project-context rules: PROJECT_STATE / HANDOFF are default reads, while DECISIONS / CONTEXT / ACCEPTANCE are read or written only when the task triggers them, avoiding documentation overhead. A light routing mode and self-downgrade rule keep small changes cheap. V0.7.7 adds two lightweight scenario-triggered thinking prompts — First-Principles for root-cause hunting and architecture/refactor decisions, and Adversarial Review for pre-launch and periodic stability checks — never applied to small changes, preserving light routing."
 metadata:
-  short-description: "Kun Coding Router V0.7.6：项目流程调度器。判断阶段、路由子 Skill、分层读档、强制确认、验收收尾。"
-  version: "0.7.6"
+  short-description: "Kun Coding Router V0.7.7：项目流程调度器。判断阶段、路由子 Skill、分层读档、强制确认、验收收尾；第一性原理找根因 + 对抗式审查保上线。"
+  version: "0.7.7"
 ---
 
-# Kun Coding Router V0.7.6：项目流程调度器
+# Kun Coding Router V0.7.7：项目流程调度器
 
 ## 一句话定位
 
@@ -153,6 +153,8 @@ Router 不直接替代子 Skill。
 6. **改到具体高风险面**：本轮将改动以下任一具体对象——共享数据模型 / schema、对外 API 契约、鉴权或权限逻辑、路由表、构建或部署脚本——但没有测试或验收路径。
 7. **跨窗口接续没读档**：用户表达"新窗口继续 / 接着上次"，但还没读取 `PROJECT_STATE.md` 或 `HANDOFF.md`。
 
+> 触发条件 5 / 6（重构、推翻旧方案、改高风险面）时，暂停后先做一次第一性原理判断，**AI 必须先自答三问**（不是让用户选）：①当前问题的最底层原因是什么？②是否必须改架构 / schema / API 才能解决？③有没有更小、更可逆、同样治本的方案？把三问答案填进下面「通用暂停话术」的风险 / 原因 / 推荐默认各栏，再让用户按 1 / 2 / 3 选择。（见「两个通用思维」）
+
 ### 通用暂停话术
 
 ```md
@@ -197,6 +199,30 @@ Router 不直接替代子 Skill。
 ```
 
 用户没有明确选择（1/2/3）前，不要施工。
+
+---
+
+## 两个通用思维：第一性原理 / 对抗式审查（V0.7.7）
+
+> 这是全 Skill 唯一一份这两个思维的定义，各门引用本节，不重复展开。
+> 它们是**轻量提示词 / 思维习惯**，不是新流程；按场景触发，绝不对小改滥用。
+> 一句话分工：**第一性原理管"生成 / 找根因"，对抗式审查管"验证 / 上线稳定"，前者管治本，后者管兜底。**
+
+### 第一性原理（管"生成 / 找根因 / 要不要重构"）
+
+强制打断 AI 的类比推理（它默认会从训练数据里找个像的方案糊上去），逼它回到问题本质重新推导，区分**治标 vs 治本**。
+
+- **何时用**：修 Bug 找根因、架构决策、AI 想重构 / 推翻旧方案、方案选型等"稍复杂"的问题。
+- **怎么用**：任务后加一句"从第一性原理出发"；当 AI 给出第一个原因 / 方案时，追问一次——"这是表层还是最底层原因？治标还是治本？先别套现成方案，从最基本事实推导出本质约束，再参考成熟方案落地。"（第一性原理不是反经验、重新造轮子，而是防止 AI 一上来被相似案例带偏。）
+- **别滥用**：UI 小改、文案、单行样式不用，否则和轻量路由 / 自降级打架。
+
+### 对抗式审查（管"验证 / 上线稳定"）
+
+站在"恶意用户 / 我要用畸形数据搞崩你"的角度**反向**找 BUG，覆盖正向测试（功能跑通）照不到的异常与边界。
+
+- **何时用**：复杂功能完成、**准备上线**、或已上线项目定期复盘（建议每 2–3 周一次全局审查）。
+- **怎么用**：让 AI 用异常输入把整条路径从入口到崩溃走一遍——超大输入、空值 / 畸形数据、未来 / 错乱时间、并发冲突、重试死循环（OOM）、缓存穿透等。复杂或要上线的功能，**如果当前工具支持多 Agent / 专项审查**（如 Claude Code 的 `/code-review ultra`、`/security-review`，或其它 Agent 的等价能力）就用它并发审查；**不支持就用上面这份对抗式清单让当前 AI 手动逐条审查**。（本条是全 Skill 唯一详列审查命令的地方，其余门只引用本节。）
+- **别滥用**：多 Agent 审查耗时耗钱，不对小改、不每轮都上；默认可选、由用户拍板（沿用 Git 护栏那套"不经确认不自动上重流程"）。
 
 ---
 
@@ -383,3 +409,4 @@ UI 小改 / 文案
 - 不要把个人知识库沉淀混入本 Skill；项目复盘和 Obsidian 归档应交给单独流程。
 - 项目洁癖只在阶段完成、功能完成、部署完成、准备新开对话或用户明确要求时启用，不要让每个小改都变成文档工程。
 - Handoff 是跨窗口接力，不是长篇复盘；只写下一轮必须知道的内容。
+- 复杂问题、找根因、架构决策、AI 想重构时，用「第一性原理」逼出本质解，别让 AI 用类比推理糊一个治标方案；功能上线前或定期复盘时，用「对抗式审查」找恶意 / 边界 BUG。两者都是按需触发的轻量思维，绝不对小改滥用（见「两个通用思维」）。

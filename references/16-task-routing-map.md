@@ -165,6 +165,8 @@
 8. `12-verification-git-report.md`
 9. 高复用问题写入 `13-project-cleanup-gate.md` / TROUBLESHOOTING；若形成可复用回归路径，必要时同步到 `ACCEPTANCE.md`
 
+> 根因追问：AI 给出 Bug 原因后，按「第一性原理」追问一次——这是表层还是最底层原因？治标还是治本？防止 AI 用类比推理糊一个只治表的补丁（见 SKILL.md「两个通用思维」）。
+
 ## 禁止
 
 - 不允许没复现就改。
@@ -238,6 +240,8 @@
 4. `12-verification-git-report.md`
 5. 验收通过且阶段完成时 `13-project-cleanup-gate.md`
 
+> 上线前 / 复杂功能：在正向验收之外，加一道「对抗式审查」——用畸形、超大、时间错乱、空值、并发等异常输入反向找 BUG；工具支持多 Agent / 专项审查时用它，不支持就手动逐条审查。小改不用（命令与详细清单见 SKILL.md「两个通用思维」）。
+
 ## 禁止
 
 - 不要只看代码说完成。
@@ -266,6 +270,8 @@
 5. `11-computer-use-e2e-gate.md`
 6. `12-verification-git-report.md`
 7. `13-project-cleanup-gate.md`
+
+> 上线前对抗式审查：如本次上线涉及用户输入、数据写入、权限、API、爬虫、定时任务或公网访问，在正向验收之外加一道「对抗式审查」（畸形 / 超大 / 时间错乱 / 并发等异常输入反向找 BUG）；纯静态部署或小改不用（详见 SKILL.md「两个通用思维」）。
 
 ## 禁止
 
